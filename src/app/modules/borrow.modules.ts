@@ -16,5 +16,12 @@ const borrowSchema = new Schema<IBorrow>(
 )
 
 
+borrowSchema.pre("save", function () {
+    if (!this.dueDate || this.dueDate < new Date()) {
+        throw new Error("Due date must be a valid future date");
+    }
+});
+
+
 
 export const Borrow = model("Borrow", borrowSchema);

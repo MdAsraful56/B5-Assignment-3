@@ -14,11 +14,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.borrowRoutes = void 0;
 const express_1 = __importDefault(require("express"));
+const books_modules_1 = require("../modules/books.modules");
 const borrow_modules_1 = require("../modules/borrow.modules");
 exports.borrowRoutes = express_1.default.Router();
 // get all borrows
 exports.borrowRoutes.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const data = yield borrow_modules_1.Borrow.find();
+    const data = yield borrow_modules_1.Borrow.find().populate("book");
     res.status(200).json({
         success: true,
         message: "All borrows retrieved successfully",
@@ -26,15 +27,32 @@ exports.borrowRoutes.get("/", (req, res) => __awaiter(void 0, void 0, void 0, fu
     });
 }));
 // create a new borrow
-exports.borrowRoutes.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const body = req.body;
-    const data = yield borrow_modules_1.Borrow.create(body);
-    res.status(201).json({
-        success: true,
-        message: "Borrow created successfully",
-        data
+exports.borrowRoutes.post("/", function (req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const body = req.body;
+        const existingBook = yield books_modules_1.Book.findById(body.book);
+        if (!existingBook) {
+            return res.status(404).json({
+                success: false,
+                message: "Book not found"
+            });
+        }
+        else if (existingBook.copies < body.quantity) {
+            return res.status(400).json({
+                success: false,
+                message: "No copies available"
+            });
+        }
+        else {
+            const data = yield borrow_modules_1.Borrow.create(body);
+            res.status(201).json({
+                success: true,
+                message: "Borrow created successfully",
+                data
+            });
+        }
     });
-}));
+});
 // get a borrow by id
 exports.borrowRoutes.get("/:borrowId", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { borrowId } = req.params;

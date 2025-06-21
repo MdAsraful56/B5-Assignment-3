@@ -10,4 +10,9 @@ const borrowSchema = new mongoose_1.Schema({
     timestamps: true,
     versionKey: false
 });
+borrowSchema.pre("save", function () {
+    if (!this.dueDate || this.dueDate < new Date()) {
+        throw new Error("Due date must be a valid future date");
+    }
+});
 exports.Borrow = (0, mongoose_1.model)("Borrow", borrowSchema);
