@@ -16,13 +16,25 @@ exports.booksRoutes = void 0;
 const express_1 = __importDefault(require("express"));
 const books_modules_1 = require("../modules/books.modules");
 exports.booksRoutes = express_1.default.Router();
+// /api/books?filter=FANTASY&sortBy=createdAt&sort=desc&limit=5
+// /api/books?filter=FANTASY&sort=desc&limit=5
+// /api/books?filter=FANTASY&sort=asc&limit=5
 // get all books
 exports.booksRoutes.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const books = yield books_modules_1.Book.find();
+    const { filter, sortBy, sort, limit } = req.query;
+    let data = {};
+    if (filter && sortBy && sort && limit) {
+        data = yield books_modules_1.Book.find({ genre: String(filter).toUpperCase().trim() })
+            .sort({ [String(sortBy)]: sort === "desc" ? -1 : 1 })
+            .limit(Number(limit));
+    }
+    else {
+        data = yield books_modules_1.Book.find();
+    }
     res.status(200).json({
         success: true,
         message: "All books retrieved successfully",
-        books
+        data
     });
 }));
 // create a new book
@@ -66,10 +78,9 @@ exports.booksRoutes.delete("/:bookId", (req, res) => __awaiter(void 0, void 0, v
         data
     });
 }));
-// /api/books?filter=FANTASY&sortBy=createdAt&sort=desc&limit=5
 // filter books by some properties 
 // booksRoutes.get("/", async (req: Request, res: Response) => {
-//     const { filter, sortBy, sort, limit } = req.query;
+//     
 //     const query: any = {};
 //     if (filter) {
 //         query.genre = filter;
