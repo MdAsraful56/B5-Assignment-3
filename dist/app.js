@@ -13,4 +13,11 @@ app.use("/api/books", books_controllers_1.booksRoutes);
 app.get("/", (req, res) => {
     res.send('Welcome to Library Management API');
 });
+// error handler 404 standard
+app.use((req, res) => {
+    res.status(404).json({
+        success: false,
+        message: "Resource not found"
+    });
+});
 exports.default = app;
