@@ -18,21 +18,21 @@ const borrow_modules_1 = require("../modules/borrow.modules");
 exports.borrowRoutes = express_1.default.Router();
 // get all borrows
 exports.borrowRoutes.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const borrows = yield borrow_modules_1.Borrow.find();
+    const data = yield borrow_modules_1.Borrow.find();
     res.status(200).json({
         success: true,
         message: "All borrows retrieved successfully",
-        borrows
+        data
     });
 }));
 // create a new borrow
 exports.borrowRoutes.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const body = req.body;
-    // Logic to create a new borrow
+    const data = yield borrow_modules_1.Borrow.create(body);
     res.status(201).json({
         success: true,
         message: "Borrow created successfully",
-        // data: {} // Replace with actual data
+        data
     });
 }));
 // get a borrow by id

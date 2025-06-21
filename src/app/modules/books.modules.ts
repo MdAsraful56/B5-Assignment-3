@@ -6,8 +6,8 @@ import { IBooks } from "../interface/books.interface";
 
 const bookSchema = new Schema<IBooks>(
     {
-        title: { type: String, required: true, trim: true },
-        author: { type: String, required: true },
+        title: { type: String, required: [true, "Title is required"], trim: true },
+        author: { type: String, required: [true, "Author is required"], trim: true },
         genre: {
             type: String,
             uppercase: true,
@@ -16,16 +16,16 @@ const bookSchema = new Schema<IBooks>(
                 message: "write a valid genre from the list: FICTION, NON_FICTION, SCIENCE, HISTORY, BIOGRAPHY, FANTASY"
             }
         },
-        isbn: { type: String, unique: true, required: true, trim: true },
+        isbn: { type: String, unique: true, required: [true, "ISBN is required"], trim: true },
         description: { type: String },
-        copies: { type: Number, required: true, min: 0 },
+        copies: { type: Number, required: [true, "Copies are required"], min: [0, "Copies must be a positive number"] },
         available: { type: Boolean, default: true }
     },
     {
         timestamps: true,
         versionKey: false
     }
-)
+);
 
 
 

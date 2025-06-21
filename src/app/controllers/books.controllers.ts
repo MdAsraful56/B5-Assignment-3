@@ -6,10 +6,6 @@ import { Book } from '../modules/books.modules';
 
 export const booksRoutes = express.Router();
 
-// /api/books?filter=FANTASY&sortBy=createdAt&sort=desc&limit=5
-// /api/books?filter=FANTASY&sort=desc&limit=5
-// /api/books?filter=FANTASY&sort=asc&limit=5
-
 
 
 // get all books
@@ -19,10 +15,19 @@ booksRoutes.get("/", async (req: Request, res: Response) => {
     const { filter, sortBy, sort, limit } = req.query;
 
     let data = {};
-    if (filter && sortBy && sort && limit) {
+    if (filter || sortBy || sort || limit) {
+
+        if (filter) {
+            data = await Book.find({ genre: String(filter).toUpperCase().trim() });
+        } else if (sort && sortBy) {
+            data = await Book.find().sort({ [String(sortBy)]: sort === "desc" ? -1 : 1 });
+        } else if (limit) {
+            data = await Book.find().limit(Number(limit));
+        } else {
         data = await Book.find({ genre: String(filter).toUpperCase().trim() })
             .sort({ [String(sortBy)]: sort === "desc" ? -1 : 1 })
             .limit(Number(limit));
+        }
     } else {
         data = await Book.find();
     }
@@ -54,7 +59,7 @@ booksRoutes.post("/", async (req: Request, res: Response) => {
 // get a book by id
 booksRoutes.get("/:bookId", async (req: Request, res: Response) => {
     const { bookId } = req.params;
-    const data = await Book.findById(bookId);
+    const data = await Book.findOne({ _id: bookId });
 
     res.status(200).json({
         success: true,

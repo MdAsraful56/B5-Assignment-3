@@ -12,11 +12,11 @@ export const borrowRoutes = express.Router();
 
 // get all borrows
 borrowRoutes.get("/", async (req: Request, res: Response) => {
-    const borrows = await Borrow.find();
+    const data = await Borrow.find();
     res.status(200).json({
         success: true,
         message: "All borrows retrieved successfully",
-        borrows
+        data
     });
 });
 
@@ -24,11 +24,12 @@ borrowRoutes.get("/", async (req: Request, res: Response) => {
 // create a new borrow
 borrowRoutes.post("/", async (req, res) => {
     const body = req.body;
-    // Logic to create a new borrow
+
+    const data = await Borrow.create(body);
     res.status(201).json({
         success: true,
         message: "Borrow created successfully",
-        // data: {} // Replace with actual data
+        data
     });
 });
 
