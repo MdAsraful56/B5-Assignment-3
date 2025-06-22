@@ -45,6 +45,8 @@ exports.borrowRoutes.post("/", function (req, res) {
         }
         else {
             const data = yield borrow_modules_1.Borrow.create(body);
+            existingBook.copies -= body.quantity;
+            yield existingBook.save();
             res.status(201).json({
                 success: true,
                 message: "Borrow created successfully",

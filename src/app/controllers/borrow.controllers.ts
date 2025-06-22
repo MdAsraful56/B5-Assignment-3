@@ -38,6 +38,8 @@ borrowRoutes.post("/", async function (req: Request, res: Response): Promise<any
             });
         } else {
             const data = await Borrow.create(body);
+            existingBook.copies -= body.quantity;
+            await existingBook.save();
             res.status(201).json({
                 success: true,
                 message: "Borrow created successfully",
@@ -45,7 +47,6 @@ borrowRoutes.post("/", async function (req: Request, res: Response): Promise<any
             });
         }
     });
-
 
 // get a borrow by id
 borrowRoutes.get("/:borrowId", async (req, res) => {

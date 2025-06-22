@@ -16,7 +16,7 @@ const bookSchema = new Schema<IBooks>(
                 message: "write a valid genre from the list: FICTION, NON_FICTION, SCIENCE, HISTORY, BIOGRAPHY, FANTASY"
             }
         },
-        isbn: { type: String, unique: true, required: [true, "ISBN is required"], trim: true },
+        isbn: { type: String, unique: [true, "ISBN must be unique"], required: [true, "ISBN is required"], trim: true },
         description: { type: String },
         copies: { type: Number, required: [true, "Copies are required"], min: [0, "Copies must be a positive number"] },
         available: { type: Boolean, default: true }
@@ -34,6 +34,13 @@ bookSchema.pre("save", function () {
         throw new Error("Copies must be a positive number");
     }
 });
+
+bookSchema.pre("save", async function () {
+    const existing = await Book.findOne({ copies: this.copies });
+    if (this.copies === 0) {
+        this.available = false;
+    }
+})
 
 
 
