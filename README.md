@@ -14,7 +14,7 @@
 ####  এটি ব্যবহার করে আপনি সকল বইকে দেখিতে পারবেন ।
 
 ```
-http://localhost:5000/api/books
+https://assignment-3-kappa-azure.vercel.app//api/books
 ```
 ```
 {
@@ -43,7 +43,7 @@ http://localhost:5000/api/books
 ####  এটি ব্যবহার করে আপনার সকল বই দেখতে পারবেন তাও নির্দিষ্ট মতন নিজের ইচ্ছামতন ফিল্টার করে ।
 
 ```
-http://localhost:5000/api/books/?filter=FANTASY&sortBy=createdAt&sort=desc&limit=2
+https://assignment-3-kappa-azure.vercel.app//api/books/?filter=FANTASY&sortBy=createdAt&sort=desc&limit=2
 ```
 
 
@@ -53,7 +53,7 @@ http://localhost:5000/api/books/?filter=FANTASY&sortBy=createdAt&sort=desc&limit
 ####  এটি ব্যবহার করে কোন ডকুমেন্ট তৈরি করিতে পারবেন ।
 
 ```
-http://localhost:5000/api/books
+https://assignment-3-kappa-azure.vercel.app//api/books
 ```
 
 ```
@@ -75,7 +75,7 @@ http://localhost:5000/api/books
 
 
 ```
-http://localhost:5000/api/books/:bookId
+https://assignment-3-kappa-azure.vercel.app//api/books/:bookId
 ```
 
 ### 🧩 DELETE -> Delete Single Books
@@ -83,7 +83,7 @@ http://localhost:5000/api/books/:bookId
 ####  এটি ব্যবহার করে কোন ডকুমেন্ট ডিলেট করতে পারবেন তার নির্দিষ্ট আইডি অনুসারে ।
 
 ```
-http://localhost:5000/api/books/:bookId
+https://assignment-3-kappa-azure.vercel.app//api/books/:bookId
 ```
 
 
@@ -96,7 +96,7 @@ http://localhost:5000/api/books/:bookId
 #### এটি মাধ্যমে সব মিলে কয়টি বই নিয়েছে সবগুলো একসাথে দেখা যায় ।
 
 ```
-http://localhost:5000/api/borrow 
+https://assignment-3-kappa-azure.vercel.app//api/borrow 
 ```
 ```
 {
@@ -127,7 +127,7 @@ http://localhost:5000/api/borrow
 ####  এটার মাধ্যমে কেউ কোন বই নিবে কিনা ওইটি নির্দিষ্ট ভাবে পোস্ট করা যায় ।
 
 ```
-http://localhost:5000/api/borrow 
+https://assignment-3-kappa-azure.vercel.app//api/borrow 
 ```
 ```
 {
@@ -143,7 +143,7 @@ http://localhost:5000/api/borrow
 #### এটার মাধ্যমে কেউ বই জমা দিলে তার পোস্টটি ডিলিট করা যায় ।
 
 ```
-http://localhost:5000/api/borrow/:borrowId
+https://assignment-3-kappa-azure.vercel.app//api/borrow/:borrowId
 ```
 
 
