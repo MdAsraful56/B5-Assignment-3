@@ -12,7 +12,38 @@ export const borrowRoutes = express.Router();
 
 // get all borrows
 borrowRoutes.get("/", async (req: Request, res: Response) => {
-    const data = await Borrow.find().populate("book");
+    // const data = await Borrow.find().populate("book");
+
+    const data = await Borrow.aggregate([
+        {
+            $group: {
+                _id: "$book",
+                totalQuantity: { $sum: "$quantity" },
+            }
+        },
+        {
+            $lookup: {
+                from: "books",
+                localField: "_id",
+                foreignField: "_id",
+                as: "bookDetails"
+            }
+        },
+        {
+            $unwind: "$bookDetails"
+        },
+        {
+            $project: {
+                _id: 0,
+                book: {
+                    title: "$bookDetails.title",
+                    isbn: "$bookDetails.isbn"
+                },
+                totalQuantity: 1
+                }
+        }
+    ])
+
     res.status(200).json({
         success: true,
         message: "All borrows retrieved successfully",
@@ -48,13 +79,19 @@ borrowRoutes.post("/", async function (req: Request, res: Response): Promise<any
         }
     });
 
-// get a borrow by id
-borrowRoutes.get("/:borrowId", async (req, res) => {
+// delete a borrow by id
+borrowRoutes.delete("/:borrowId", async (req, res) => {
     const { borrowId } = req.params;
-    // Logic to retrieve a borrow by ID
+    const data = await Borrow.findByIdAndDelete(borrowId);
+
     res.status(200).json({
         success: true,
-        message: "Borrow retrieved successfully",
-        // data: {} // Replace with actual data
+        message: "Borrow deleted successfully",
+        data
     });
 });
+
+
+
+
+

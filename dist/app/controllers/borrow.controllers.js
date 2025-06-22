@@ -19,7 +19,36 @@ const borrow_modules_1 = require("../modules/borrow.modules");
 exports.borrowRoutes = express_1.default.Router();
 // get all borrows
 exports.borrowRoutes.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const data = yield borrow_modules_1.Borrow.find().populate("book");
+    // const data = await Borrow.find().populate("book");
+    const data = yield borrow_modules_1.Borrow.aggregate([
+        {
+            $group: {
+                _id: "$book",
+                totalQuantity: { $sum: "$quantity" },
+            }
+        },
+        {
+            $lookup: {
+                from: "books",
+                localField: "_id",
+                foreignField: "_id",
+                as: "bookDetails"
+            }
+        },
+        {
+            $unwind: "$bookDetails"
+        },
+        {
+            $project: {
+                _id: 0,
+                book: {
+                    title: "$bookDetails.title",
+                    isbn: "$bookDetails.isbn"
+                },
+                totalQuantity: 1
+            }
+        }
+    ]);
     res.status(200).json({
         success: true,
         message: "All borrows retrieved successfully",
@@ -55,13 +84,13 @@ exports.borrowRoutes.post("/", function (req, res) {
         }
     });
 });
-// get a borrow by id
-exports.borrowRoutes.get("/:borrowId", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+// delete a borrow by id
+exports.borrowRoutes.delete("/:borrowId", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { borrowId } = req.params;
-    // Logic to retrieve a borrow by ID
+    const data = yield borrow_modules_1.Borrow.findByIdAndDelete(borrowId);
     res.status(200).json({
         success: true,
-        message: "Borrow retrieved successfully",
-        // data: {} // Replace with actual data
+        message: "Borrow deleted successfully",
+        data
     });
 }));
