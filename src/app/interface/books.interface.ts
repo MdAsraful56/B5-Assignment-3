@@ -1,12 +1,10 @@
-import { Types } from "mongoose";
-
 export interface IBooks {
-    title: string,
-    author: string,
-    genre: string,
-    isbn: string,
-    description: string,
-    copies: number,
-    available: Boolean,
-};
-
+  title: string;
+  author: string;
+  image: string;
+  genre: string;
+  isbn: string;
+  description: string;
+  copies: number;
+  available: Boolean;
+}

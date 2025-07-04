@@ -25,7 +25,9 @@ exports.booksRoutes.get("/", (req, res) => __awaiter(void 0, void 0, void 0, fun
             data = yield books_modules_1.Book.find({ genre: String(filter).toUpperCase().trim() });
         }
         else if (sort && sortBy) {
-            data = yield books_modules_1.Book.find().sort({ [String(sortBy)]: sort === "desc" ? -1 : 1 });
+            data = yield books_modules_1.Book.find().sort({
+                [String(sortBy)]: sort === "desc" ? -1 : 1,
+            });
         }
         else if (limit) {
             data = yield books_modules_1.Book.find().limit(Number(limit));
@@ -42,7 +44,7 @@ exports.booksRoutes.get("/", (req, res) => __awaiter(void 0, void 0, void 0, fun
     res.status(200).json({
         success: true,
         message: "All books retrieved successfully",
-        data
+        data,
     });
 }));
 // create a new book
@@ -52,7 +54,7 @@ exports.booksRoutes.post("/", (req, res) => __awaiter(void 0, void 0, void 0, fu
     res.status(201).json({
         success: true,
         message: "Book created successfully",
-        data
+        data,
     });
 }));
 // get a book by id
@@ -62,7 +64,7 @@ exports.booksRoutes.get("/:bookId", (req, res) => __awaiter(void 0, void 0, void
     res.status(200).json({
         success: true,
         message: "Book retrieved successfully",
-        data
+        data,
     });
 }));
 // update a book by id
@@ -73,7 +75,7 @@ exports.booksRoutes.patch("/:bookId", (req, res) => __awaiter(void 0, void 0, vo
     res.status(200).json({
         success: true,
         message: "Book updated successfully",
-        data
+        data,
     });
 }));
 // delete a book by id
@@ -83,24 +85,6 @@ exports.booksRoutes.delete("/:bookId", (req, res) => __awaiter(void 0, void 0, v
     res.status(200).json({
         success: true,
         message: "Book deleted successfully",
-        data
+        data,
     });
 }));
-// filter books by some properties 
-// booksRoutes.get("/", async (req: Request, res: Response) => {
-//     
-//     const query: any = {};
-//     if (filter) {
-//         query.genre = filter;
-//     }
-//     const options: any = {
-//         sort: { [String(sortBy || 'createdAt')]: sort === 'desc' ? -1 : 1 },
-//         limit: parseInt(limit as string) || 10
-//     };
-//     const data = await Book.find(query, null, options);
-//     res.status(200).json({
-//         success: true,
-//         message: "Books retrieved successfully",
-//         data
-//     });
-// });

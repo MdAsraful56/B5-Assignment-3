@@ -13,22 +13,43 @@ exports.Book = void 0;
 const mongoose_1 = require("mongoose");
 const bookSchema = new mongoose_1.Schema({
     title: { type: String, required: [true, "Title is required"], trim: true },
-    author: { type: String, required: [true, "Author is required"], trim: true },
+    author: {
+        type: String,
+        required: [true, "Author is required"],
+        trim: true,
+    },
+    image: { type: String, required: [true, "Image is required"], trim: true },
     genre: {
         type: String,
         uppercase: true,
         enum: {
-            values: ["FICTION", "NON_FICTION", "SCIENCE", "HISTORY", "BIOGRAPHY", "FANTASY"],
-            message: "write a valid genre from the list: FICTION, NON_FICTION, SCIENCE, HISTORY, BIOGRAPHY, FANTASY"
-        }
+            values: [
+                "FICTION",
+                "NON_FICTION",
+                "SCIENCE",
+                "HISTORY",
+                "BIOGRAPHY",
+                "FANTASY",
+            ],
+            message: "write a valid genre from the list: FICTION, NON_FICTION, SCIENCE, HISTORY, BIOGRAPHY, FANTASY",
+        },
     },
-    isbn: { type: String, unique: [true, "ISBN must be unique"], required: [true, "ISBN is required"], trim: true },
+    isbn: {
+        type: String,
+        unique: [true, "ISBN must be unique"],
+        required: [true, "ISBN is required"],
+        trim: true,
+    },
     description: { type: String },
-    copies: { type: Number, required: [true, "Copies are required"], min: [0, "Copies must be a positive number"] },
-    available: { type: Boolean, default: true }
+    copies: {
+        type: Number,
+        required: [true, "Copies are required"],
+        min: [0, "Copies must be a positive number"],
+    },
+    available: { type: Boolean, default: true },
 }, {
     timestamps: true,
-    versionKey: false
+    versionKey: false,
 });
 bookSchema.pre("save", function () {
     if (this.copies < 0) {
