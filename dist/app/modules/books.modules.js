@@ -48,7 +48,6 @@ const bookSchema = new mongoose_1.Schema({
     },
     available: { type: Boolean, default: true },
 }, {
-    timestamps: true,
     versionKey: false,
 });
 bookSchema.pre("save", function () {
