@@ -1,3 +1,4 @@
+import cors from "cors"; // Import the cors package
 import express, { Application, Request, Response } from "express";
 import { booksRoutes } from "./app/controllers/books.controllers";
 import { borrowRoutes } from "./app/controllers/borrow.controllers";
@@ -5,6 +6,12 @@ import { borrowRoutes } from "./app/controllers/borrow.controllers";
 const app: Application = express();
 
 app.use(express.json());
+// Use cors middleware
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  })
+);
 
 app.use("/api/books", booksRoutes);
 app.use("/api/borrow", borrowRoutes);

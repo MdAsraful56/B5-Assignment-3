@@ -2,15 +2,9 @@ import dotenv from "dotenv";
 import { Server } from "http";
 import mongoose from "mongoose";
 import app from "./app";
-const cors = require("cors"); // Import the cors package
+// const cors = require("cors"); // Import the cors package
 
 dotenv.config();
-// Use cors middleware
-app.use(
-  cors({
-    origin: "http://localhost:5173", // Allow your frontend origin
-  })
-);
 
 let server: Server;
 const port = process.env.PORT || 5000;
