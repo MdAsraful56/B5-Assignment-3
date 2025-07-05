@@ -9,7 +9,11 @@ app.use(express.json());
 // Use cors middleware
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: [
+      "http://localhost:5173",
+      "https://assignment-4-cz6ci4d2y-mdasraful56s-projects.vercel.app/",
+      "https://b5-assignment-4-rho.vercel.app/",
+    ],
   })
 );
 
