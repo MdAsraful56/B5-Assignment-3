@@ -11,11 +11,7 @@ const app = (0, express_1.default)();
 app.use(express_1.default.json());
 // Use cors middleware
 app.use((0, cors_1.default)({
-    origin: [
-        "http://localhost:5173",
-        "https://assignment-4-cz6ci4d2y-mdasraful56s-projects.vercel.app/",
-        "https://b5-assignment-4-rho.vercel.app/",
-    ],
+    origin: ["http://localhost:5173", "https://b5-assignment-4-rho.vercel.app"],
 }));
 app.use("/api/books", books_controllers_1.booksRoutes);
 app.use("/api/borrow", borrow_controllers_1.borrowRoutes);
